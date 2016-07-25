@@ -10,18 +10,16 @@ import com.yff.view.ExpandView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
 
     private ExpandView expandedMenu;
-    private Map<String,ExpandItemView> expandItemView;
-    private String[] mColleages = { "A学校", "B学校", "C学校", "D学校", "E学校", "F学校", "G学校", "H学校", "I学校", "J学校" };
-    private String[] mDepartments = { "A系", "B系", "C系", "D系", "E系", "F系", "G系", "H系" , "I系" };
-    private String[] mProfessions = { "A专业", "B专业", "C专业" , "D专业" , "E专业" , "F专业" };
-    private String[] mClasses = { "A班", "B班", "C班", "D班" , "E班" };
+    private List<ExpandItemView> expandItemView;
+    private String[] mColleages = { "最近一周", "最近一个月", "最近三个月" };
+    private String[] mDepartments = { "体现", "营收", "付费推广", "商家粮票"};
+    private String[] mProfessions = { "收入", "支出"};
 
 
     @Override
@@ -32,13 +30,59 @@ public class MainActivity extends Activity {
         assignViews();
 
 
-        expandItemView=new HashMap<>();
+        expandItemView=new ArrayList<>();
 
-        expandItemView.put("A",new ExpandItemView(this,"学校",Arrays.asList(mColleages)));
-        expandItemView.put("B",new ExpandItemView(this,"院系",Arrays.asList(mDepartments)));
-        expandItemView.put("C",new ExpandItemView(this,"专业",Arrays.asList(mProfessions)));
-        expandItemView.put("D",new ExpandItemView(this,"班级",Arrays.asList(mClasses)));
-        expandedMenu.initViews(new ArrayList<>(expandItemView.values()));
+
+        ExpandItemView itemView1=new ExpandItemView(this,"全部时间",Arrays.asList(mColleages));
+        ExpandItemView itemView2=new ExpandItemView(this,"全部类型",Arrays.asList(mDepartments));
+        ExpandItemView itemView3=new ExpandItemView(this,"收支明细",Arrays.asList(mProfessions));
+        expandItemView.add(itemView1);
+        expandItemView.add(itemView2);
+        expandItemView.add(itemView3);
+        expandedMenu.initViews(expandItemView);
+
+        itemView1.setOnExpandItemClick(new ExpandItemView.OnExpandItemClick() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(MainActivity.this,"itemView1--item"+position,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onBottomClick() {
+                expandedMenu.hidePopwind();
+                Toast.makeText(MainActivity.this,"itemView1--bottom",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        itemView2.setOnExpandItemClick(new ExpandItemView.OnExpandItemClick() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(MainActivity.this,"itemView2--item"+position,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onBottomClick() {
+                expandedMenu.hidePopwind();
+                Toast.makeText(MainActivity.this,"itemView2--bottom",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        itemView3.setOnExpandItemClick(new ExpandItemView.OnExpandItemClick() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(MainActivity.this,"itemView3--item"+position,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onBottomClick() {
+                expandedMenu.hidePopwind();
+                Toast.makeText(MainActivity.this,"itemView3--bottom",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
 

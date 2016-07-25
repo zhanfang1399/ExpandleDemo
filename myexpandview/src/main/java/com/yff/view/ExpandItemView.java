@@ -6,11 +6,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.myexpandview.R;
 
@@ -32,25 +30,17 @@ public class ExpandItemView extends LinearLayout {
      */
     public String mTitle;
     /**
-     * 底部按钮
-     */
-    private Button mBottomBtn;
-    /**
-     * 展示要筛选的数据
-     */
-    private GridView mGridView;
-    /**
      * 筛选的数据内容
      */
     private List<String> mGridviewDatas;
 
 
     public ExpandItemView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public ExpandItemView(Context context, AttributeSet attrs) {
-        this(context, attrs,-1);
+        this(context, attrs, -1);
     }
 
     public ExpandItemView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -70,25 +60,18 @@ public class ExpandItemView extends LinearLayout {
         //将布局添加进去
         LayoutInflater.from(getContext()).inflate(R.layout.expand_item_layout, this, true);
         setOrientation(LinearLayout.VERTICAL);
-        mGridView = (GridView) findViewById(R.id.gridview);
-        mBottomBtn = (Button) findViewById(R.id.btn_all);
+        //展示要筛选的数据
+        GridView mGridView = (GridView) findViewById(R.id.gridview);
+        //底部按钮
+        LinearLayout mBottomBtn = (LinearLayout) findViewById(R.id.btn_all);
         //自定义的adapter   万能适配器
         MyBaseAdapter<String> adapter = new MyBaseAdapter<String>(mGridviewDatas, R.layout.gridview_item, getContext()) {
             @Override
             protected void convert(ViewHolder viewHolder, final String s) {
-                View view =viewHolder.getmContentView();
-                Button btn=(Button)view.findViewById(R.id.item_text);
-                TextView tv=(TextView)view.findViewById(R.id.tv);
+                View view = viewHolder.getmContentView();
+                TextView tv = (TextView) view.findViewById(R.id.tv);
                 tv.setText(s);
-                tv.setTextColor(Color.RED);
-                btn.setTextColor(Color.BLUE);
-                btn.setText(s);
-                btn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                tv.setTextColor(Color.LTGRAY);
 
             }
         };
@@ -118,15 +101,13 @@ public class ExpandItemView extends LinearLayout {
     }
 
 
-
-    public String getTitle(){
+    public String getTitle() {
         return mTitle == null ? new String() : mTitle;
     }
 
     public void setTitle(String mTitle) {
         this.mTitle = mTitle;
     }
-
 
 
     public List<String> getmGridviewDatas() {
@@ -144,15 +125,15 @@ public class ExpandItemView extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        int count=getChildCount();
-        int desireWidth=MeasureSpec.getSize(widthMeasureSpec);
-        int desireHeight=0;
-        for(int i=0;i<count;i++){
-            View child=getChildAt(i);
-            measureChild(child,widthMeasureSpec,heightMeasureSpec);
-            desireHeight+=child.getMeasuredHeight();
+        int count = getChildCount();
+        int desireWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int desireHeight = 0;
+        for (int i = 0; i < count; i++) {
+            View child = getChildAt(i);
+            measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            desireHeight += child.getMeasuredHeight();
         }
-        setMeasuredDimension(desireWidth,desireHeight);
+        setMeasuredDimension(desireWidth, desireHeight);
     }
 
     /**

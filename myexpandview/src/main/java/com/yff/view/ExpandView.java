@@ -1,7 +1,6 @@
 package com.yff.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -57,7 +56,7 @@ public class ExpandView extends LinearLayout implements ExpandItemView.OnExpandI
     /**
      * toggleButton被选中的类型字体颜色
      */
-    int mSelectTextColor = Color.RED;
+    int mSelectTextColor = getResources().getColor(R.color.themeYellow);
 
 
     public ExpandView(Context context) {
@@ -103,10 +102,14 @@ public class ExpandView extends LinearLayout implements ExpandItemView.OnExpandI
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             relativeLayout.addView(itemView, params);
             mPopupviews.add(relativeLayout);
-            final ToggleButton toggleButton = (ToggleButton) inflater.inflate(R.layout.toggle_button, this, false);
+
+
+            View view =inflater.inflate(R.layout.expand_view,this,false);
+            final ToggleButton toggleButton=(ToggleButton)view.findViewById(R.id.toggle);
+
             toggleButton.setText(itemView.getTitle());
             mToggleButtons.add(toggleButton);
-            addView(toggleButton);
+            addView(view);
             toggleButton.setTag(i);
             toggleButton.setOnClickListener(new OnClickListener() {
                 @Override
